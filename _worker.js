@@ -483,7 +483,10 @@ async function handleRequest(request, env, ctx) {
 
   // 智能判断系统类型返回不同响应
   if (checkURL(value)) {
-    return Response.redirect(value, 302);
+    // iframe 套壳：地址栏保持短链，不暴露真实地址
+    // 注意：目标站若设置 X-Frame-Options / CSP frame-ancestors 会拒绝被嵌，显示空白
+    const mask_html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title> </title><style>html,body{margin:0;padding:0;height:100%;overflow:hidden}iframe{border:0;width:100%;height:100vh;display:block}</style></head><body><iframe src="${value.replace(/"/g, '&quot;')}"></iframe></body></html>`;
+    return new Response(mask_html, { headers: html_response_header, status: 200 });
   } else {
     return new Response(value, { headers: html_response_header, status: 200 });
   }
