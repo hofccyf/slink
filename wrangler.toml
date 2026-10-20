@@ -5,4 +5,4 @@ keep_vars = true
 
 [[kv_namespaces]]
 binding = "LINKS" 
-id = "{CF_KV_ID}" # action部署时被变量替换
+id = "{31c41fbb16544bbeb2833ceb68be602d}" # action部署时被变量替换
